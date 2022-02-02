@@ -1,0 +1,7 @@
+{
+	"nome": "Ristorante Trevizzo",
+	"taxaFrete": 15,
+	"cozinha": {
+		"id": 1
+	}
+}
