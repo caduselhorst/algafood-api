@@ -4,17 +4,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.api.model.CozinhaModel;
 import com.algaworks.algafood.domain.model.Cozinha;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 @Component
 public class CozinhaModelAssembler {
 
+	@Autowired
 	private ModelMapper modelMapper;
 	
 	public CozinhaModel toModel(Cozinha cozinha) {

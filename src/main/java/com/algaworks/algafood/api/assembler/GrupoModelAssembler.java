@@ -5,17 +5,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.api.model.GrupoModel;
 import com.algaworks.algafood.domain.model.Grupo;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 @Component
 public class GrupoModelAssembler {
 
+	@Autowired
 	private ModelMapper mapper;
 	
 	public GrupoModel toModel(Grupo grupo) {
