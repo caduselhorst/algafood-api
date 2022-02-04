@@ -24,19 +24,20 @@ public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<U
 
 	@Autowired
 	private ModelMapper mapper;
-	
+
 	public UsuarioModel toModel(Usuario usuario) {
-		
+
 		UsuarioModel usuarioModel = createModelWithId(usuario.getId(), usuario);
-		
+
 		mapper.map(usuario, usuarioModel);
-		
+
 		usuarioModel.add(linkTo(methodOn(UsuarioController.class).listar()).withRel("usuarios"));
-		usuarioModel.add(linkTo(methodOn(UsuarioGrupoController.class).listar(usuario.getId())).withRel("grupos-usuario"));
-		
+		usuarioModel
+				.add(linkTo(methodOn(UsuarioGrupoController.class).listar(usuario.getId())).withRel("grupos-usuario"));
+
 		return usuarioModel;
 	}
-	
+
 	@Override
 	public CollectionModel<UsuarioModel> toCollectionModel(Iterable<? extends Usuario> entities) {
 		// TODO Auto-generated method stub
