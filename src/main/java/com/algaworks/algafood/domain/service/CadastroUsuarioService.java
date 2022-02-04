@@ -1,11 +1,11 @@
 package com.algaworks.algafood.domain.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +39,7 @@ public class CadastroUsuarioService {
 	@Autowired
 	private CadastroGrupoService cadastroGrupo;
 	
-	public List<UsuarioModel> listar() {
+	public CollectionModel<UsuarioModel> listar() {
 		return assembler.toCollectionModel(repository.findAll());
 	}
 	
