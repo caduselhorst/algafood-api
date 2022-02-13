@@ -1,10 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.api.assembler.PedidoModelAssembler;
@@ -47,11 +47,11 @@ public class EmissaoPedidoService {
 				.orElseThrow(() -> new PedidoNaoEncontradoException(codigo));
 	}
 	
-	public PedidoModel buscar(String codigo) {
+	public RepresentationModel<PedidoModel> buscar(String codigo) {
 		return pedidoModelAssembler.toModel(buscarOuFalhar(codigo));
 	}
 	
-	public List<PedidoResumoModel> listar() {
+	public CollectionModel<PedidoResumoModel> listar() {
 		return pedidoResumoModelAssembler.toCollectionModel(pedidoRepository.findAll());
 	}
 	

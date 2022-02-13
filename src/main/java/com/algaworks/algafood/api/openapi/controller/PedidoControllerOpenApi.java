@@ -1,7 +1,8 @@
 package com.algaworks.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.RepresentationModel;
 
 import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.model.PedidoModel;
@@ -27,7 +28,7 @@ public interface PedidoControllerOpenApi {
 		@ApiImplicitParam(value = "Nome das propriedades para filtrar na resposta, separados por vírgula",
 				name = "campos", paramType = "query", dataTypeClass = String.class)
 	})
-	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,  Pageable pageable);
+	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro,  Pageable pageable);
 	
 	@ApiOperation("Busca por um código")
 	@ApiImplicitParams({
@@ -38,7 +39,7 @@ public interface PedidoControllerOpenApi {
 		@ApiResponse(responseCode = "404", description = "Pedido não econtrado", 
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class)))
 	})
-	public PedidoModel buscar(@ApiParam(example = "f9981ca4-5a5e-4da3-af04-933861df3e55", value="Código do pedido", required = true) String codigo);
+	public RepresentationModel<PedidoModel> buscar(@ApiParam(example = "f9981ca4-5a5e-4da3-af04-933861df3e55", value="Código do pedido", required = true) String codigo);
 	
 	@ApiOperation("Adiciona um novo pedido.")
 	@ApiResponses({

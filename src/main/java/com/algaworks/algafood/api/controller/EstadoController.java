@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +37,9 @@ public class EstadoController implements EstadoControllerOpenApi {
 	private EstadoInputDisassembler disassembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<EstadoModel>> listar() {
+	public CollectionModel<EstadoModel> listar() {
 		List<Estado> estados = cadastroEstado.listar();
-		return ResponseEntity.ok(
-				assembler.toCollectionModel(estados));
+		return assembler.toCollectionModel(estados);
 	}
 	
 	@GetMapping(path = "/{estadoId}", produces = MediaType.APPLICATION_JSON_VALUE)

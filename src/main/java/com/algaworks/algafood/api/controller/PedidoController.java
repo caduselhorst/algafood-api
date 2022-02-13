@@ -1,15 +1,16 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.HashMap;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import com.algaworks.algafood.api.model.PedidoModel;
 import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.api.model.input.PedidoInput;
 import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
+import com.algaworks.algafood.core.data.PageWrapper;
 import com.algaworks.algafood.core.data.PageableTranslator;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -38,7 +40,7 @@ import com.algaworks.algafood.domain.service.EmissaoPedidoService;
 import com.algaworks.algafood.infrastructure.repository.spec.PedidoSpecs;
 
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping(value = "/pedidos")
 public class PedidoController implements PedidoControllerOpenApi {
 
 	@Autowired
@@ -47,7 +49,8 @@ public class PedidoController implements PedidoControllerOpenApi {
 	private PedidoInputDisassembler pedidoInputDisassembler;
 	@Autowired
 	private PedidoModelAssembler pedidoModelAssembler;
-	
+	@Autowired
+	private PagedResourcesAssembler<Pedido> pedidoPagedResouceAssembler;
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
@@ -55,45 +58,25 @@ public class PedidoController implements PedidoControllerOpenApi {
 	private PedidoResumoModelAssembler pedidoResumoModelAssembler;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
+	public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro, @PageableDefault(size = 10) Pageable pageable) {
+	
+		Pageable pageableTraduzido = traduzirPageable(pageable); 
 		
-		pageable = traduzirPageable(pageable);
+		Page<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
 		
-		Page<Pedido> todosPedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
-		List<PedidoResumoModel> pedidosResumoModel = pedidoResumoModelAssembler.toCollectionModel(
-				todosPedidos.getContent()); 
+		todosPedidos = new PageWrapper<>(todosPedidos, pageable);
 		
-		Page<PedidoResumoModel> pedidosResumoModelPage = new PageImpl<>(pedidosResumoModel, 
-				pageable, todosPedidos.getTotalElements());
+		PagedModel<PedidoResumoModel> pagedPedidos = pedidoPagedResouceAssembler.toModel(todosPedidos, pedidoResumoModelAssembler);
 		
-		return pedidosResumoModelPage; 
+		
+		
+		return pagedPedidos;
 	}
+		
 	
-	/*
-	 * Usando JSON Filter - anotação no modelo resumo e filtro no controlador
-	 */
-//	@GetMapping
-//	public MappingJacksonValue listar(@RequestParam(required = false) String campos) {
-//		List<PedidoResumoModel> pedidos = cadastroPedido.listar();
-//		
-//		MappingJacksonValue pedidosWrapper = new MappingJacksonValue(pedidos);
-//		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-//		filterProvider.addFilter("pedidoFilter", SimpleBeanPropertyFilter.serializeAll());
-//		
-//		if(StringUtils.isNotBlank(campos)) {
-//			filterProvider.addFilter("pedidoFilter", 
-//					SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
-//		}
-//		
-//		pedidosWrapper.setFilters(filterProvider);
-//		
-//		return pedidosWrapper;
-//	}
-	
-	
-	@GetMapping(path  = "/{codigo}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public PedidoModel buscar(@PathVariable String codigo) {
-		return cadastroPedido.buscar(codigo);
+	@GetMapping(value  = "/{codigoPedido}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public RepresentationModel<PedidoModel> buscar(@PathVariable String codigoPedido) {
+		return cadastroPedido.buscar(codigoPedido);
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -114,6 +97,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 	    }
 	}
 	
+	
 	private Pageable traduzirPageable(Pageable apiPageble) {
 
 		HashMap<String, String> mapeamento = new HashMap<>();
@@ -129,5 +113,6 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return PageableTranslator.translate(apiPageble, mapeamento);
 				
 	}
+	
 	
 }
