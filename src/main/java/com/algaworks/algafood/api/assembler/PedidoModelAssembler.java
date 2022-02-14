@@ -51,8 +51,15 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 					new TemplateVariable("sort", VariableType.REQUEST_PARAM)
 				);
 		
+		TemplateVariables paramVariables = new TemplateVariables(
+					new TemplateVariable("clienteId", VariableType.REQUEST_PARAM),
+					new TemplateVariable("restauranteId", VariableType.REQUEST_PARAM),
+					new TemplateVariable("dataCriacaoInicio", VariableType.REQUEST_PARAM),
+					new TemplateVariable("dataCriacaoFim", VariableType.REQUEST_PARAM)
+				);
+		
 		pedidoModel.add(Link.of(UriTemplate.of(pedidosUrl, 
-				pageVariables), "pedidos"));
+				pageVariables.concat(paramVariables)), "pedidos"));
 		
 		/*
 		 * TODO verificar porque o hateoes coloca o link para o id do pedido junto com os outros links.
