@@ -1,30 +1,43 @@
 package com.algaworks.algafood.api.assembler;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.algaworks.algafood.api.AlgaLinks;
+import com.algaworks.algafood.api.controller.FormaPagamentoController;
 import com.algaworks.algafood.api.model.FormaPagamentoModel;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 
 @Component
-public class FormaPagamentoModelAssembler {
-
+public class FormaPagamentoModelAssembler extends RepresentationModelAssemblerSupport<FormaPagamento, FormaPagamentoModel> {
+	
 	@Autowired
 	private ModelMapper mapper;
 	
+	@Autowired
+	private AlgaLinks algaLinks;
+
+	public FormaPagamentoModelAssembler() {
+		super(FormaPagamentoController.class, FormaPagamentoModel.class);
+	}
+
+	
 	public FormaPagamentoModel toModel(FormaPagamento formaPagamento) {
-		return mapper.map(formaPagamento, FormaPagamentoModel.class);
+		FormaPagamentoModel formaPagamentoModel= createModelWithId(formaPagamento.getId(), formaPagamento);
+		mapper.map(formaPagamento, formaPagamentoModel);
+		
+		formaPagamentoModel.add(algaLinks.linkToFormasPagamento(null));
+		
+		return formaPagamentoModel;
 	}
 	
-	public List<FormaPagamentoModel> toCollectionModel(Collection<FormaPagamento> formasPagamento) {
-		return formasPagamento.stream()
-				.map(f -> toModel(f))
-				.collect(Collectors.toList());
+	@Override
+	public CollectionModel<FormaPagamentoModel> toCollectionModel(Iterable<? extends FormaPagamento> entities) {
+		// TODO Auto-generated method stub
+		return super.toCollectionModel(entities).add(algaLinks.linkToFormasPagamento(null));
 	}
 	
 }

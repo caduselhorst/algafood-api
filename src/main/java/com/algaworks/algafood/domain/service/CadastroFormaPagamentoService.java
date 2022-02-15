@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class CadastroFormaPagamentoService {
 	
 	
 
-	public List<FormaPagamentoModel> listar() {
+	public CollectionModel<FormaPagamentoModel> listar() {
 		
 		List<FormaPagamento> formasPagamento = repository.findAll();
 		return assembler.toCollectionModel(formasPagamento);

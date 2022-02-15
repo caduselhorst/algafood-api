@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.model.FormaPagamentoModel;
@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface RestauranteFormaPagamentoControllerOpenApi {
 
 	@ApiOperation("Lista formas de pagamento associadas ao restaurante")
-	public List<FormaPagamentoModel> listar(
+	public CollectionModel<FormaPagamentoModel> listar(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
 	
 	@ApiOperation("Desassocia forma de pagamento do restaurante")
