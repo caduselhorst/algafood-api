@@ -47,7 +47,7 @@ public class PedidoModel extends RepresentationModel<PedidoModel> {
 	
 	private UsuarioModel cliente;
 	private FormaPagamentoModel formaPagamento;
-	private RestauranteResumoModel restaurante;
+	private RestauranteApenasNomeModel restaurante;
 	private EnderecoModel enderecoEntrega;	
 	private List<ItemPedidoModel> itens = new ArrayList<>();
 
