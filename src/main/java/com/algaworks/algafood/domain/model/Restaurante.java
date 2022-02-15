@@ -81,7 +81,6 @@ public class Restaurante {
 		setAtivo(true);
 	}
 	
-	
 	public void inativar() {
 		setAtivo(false);
 	}
@@ -124,5 +123,21 @@ public class Restaurante {
 	
 	public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento) {
 		return !aceitaFormaPagamento(formaPagamento);
+	}
+	
+	public boolean podeFechar() {
+		return aberto;
+	}
+	
+	public boolean podeInativar() {
+		return ativo;
+	}
+	
+	public boolean podeAbrir() {
+		return !podeFechar();
+	}
+	
+	public boolean podeAtivar() {
+		return !podeInativar();
 	}
 }

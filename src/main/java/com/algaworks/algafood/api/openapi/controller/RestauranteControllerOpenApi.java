@@ -75,7 +75,7 @@ public interface RestauranteControllerOpenApi {
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "204", description = "Restaurante ativado")
 	})
-	public void ativar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
+	public ResponseEntity<Void> ativar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
 	
 	@ApiOperation("Inativa um restaurante, informando seu ID")
 	@ApiResponses({
@@ -83,7 +83,7 @@ public interface RestauranteControllerOpenApi {
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "204", description = "Restaurante inativado")
 	})
-	public void inativar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
+	public ResponseEntity<Void> inativar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
 	
 	@ApiOperation("Abre um restaurante, para indicar que está recebendo pedidos. Informa um ID de restaurante")
 	@ApiResponses({
@@ -91,7 +91,7 @@ public interface RestauranteControllerOpenApi {
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "204", description = "Restaurante aberto")
 	})
-	public void abertura(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
+	public ResponseEntity<Void> abertura(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
 	
 	@ApiOperation("Fecha um restaurante, para indicar que não está recebendo pedidos. Informa um ID de restaurante")
 	@ApiResponses({
@@ -99,7 +99,7 @@ public interface RestauranteControllerOpenApi {
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "204", description = "Restaurante fechado")
 	})
-	public void fechamento(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
+	public ResponseEntity<Void> fechamento(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId);
 	
 	@ApiOperation("Ativa múltiplos restaurantes")
 	@ApiResponses({

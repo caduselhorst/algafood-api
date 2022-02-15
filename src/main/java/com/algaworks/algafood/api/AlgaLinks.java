@@ -159,5 +159,21 @@ public class AlgaLinks {
 		return linkTo(methodOn(RestauranteFormaPagamentoController.class).listar(restauranteId))
 				.withRel("formas-pagamento");
 	}
+	
+	public Link linkToAtivarRestaurante(Long restauranteId) {
+		return linkTo(methodOn(RestauranteController.class).ativar(restauranteId)).withRel("ativar");
+	}
+	
+	public Link linkToInativarRestaurante(Long restauranteId) {
+		return linkTo(methodOn(RestauranteController.class).ativar(restauranteId)).withRel("inativar");
+	}
+	
+	public Link linkToAbrirRestaurante(Long restauranteId) {
+		return linkTo(methodOn(RestauranteController.class).abertura(restauranteId)).withRel("abrir");
+	}
+	
+	public Link linkToFecharRestaurante(Long restauranteId) {
+		return linkTo(methodOn(RestauranteController.class).fechamento(restauranteId)).withRel("fechar");
+	}
 
 }

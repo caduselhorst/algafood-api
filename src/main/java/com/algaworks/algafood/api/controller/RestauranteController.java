@@ -135,26 +135,30 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
 	@PutMapping("/{restauranteId}/ativar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void ativar(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> ativar(@PathVariable Long restauranteId) {
 		cadastroRestaurante.ativar(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{restauranteId}/ativar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void inativar(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> inativar(@PathVariable Long restauranteId) {
 		cadastroRestaurante.inativar(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/{restauranteId}/abertura")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void abertura(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> abertura(@PathVariable Long restauranteId) {
 		cadastroRestaurante.abrir(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/{restauranteId}/fechamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void fechamento(@PathVariable Long restauranteId) {
+	public ResponseEntity<Void> fechamento(@PathVariable Long restauranteId) {
 		cadastroRestaurante.fechar(restauranteId);
+		return ResponseEntity.noContent().build();
 	}
 
 	/*
