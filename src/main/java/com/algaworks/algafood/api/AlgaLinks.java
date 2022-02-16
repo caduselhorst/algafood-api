@@ -41,7 +41,7 @@ public class AlgaLinks {
 	 * 
 	 * @return
 	 */
-	public Link linkToPedidos() {
+	public Link linkToPedidos(String rel) {
 
 		String pedidosUrl = linkTo(PedidoController.class).toUri().toString();
 
@@ -51,7 +51,7 @@ public class AlgaLinks {
 				new TemplateVariable("dataCriacaoInicio", VariableType.REQUEST_PARAM),
 				new TemplateVariable("dataCriacaoFim", VariableType.REQUEST_PARAM));
 
-		return Link.of(UriTemplate.of(pedidosUrl, PAGINACAO_VARIABLES.concat(paramVariables)), "pedidos");
+		return Link.of(UriTemplate.of(pedidosUrl, PAGINACAO_VARIABLES.concat(paramVariables)), rel);
 
 	}
 
@@ -88,24 +88,43 @@ public class AlgaLinks {
 
 	public Link linkToFormasPagamento(String rel) {
 		if (rel == null) {
-			return linkTo(methodOn(FormaPagamentoController.class).listar(null)).withRel(IanaLinkRelations.SELF_VALUE);
+			throw new RuntimeException("Rel não deve ser nulo");
 		}
 		return linkTo(methodOn(FormaPagamentoController.class).listar(null)).withRel(rel);
 	}
-
-	public Link linkToFormaPagamento(Long formaPagamentoId) {
-		return linkTo(methodOn(FormaPagamentoController.class).buscar(formaPagamentoId, null)).withSelfRel();
+	
+	public Link linkToFormasPagamento() {
+		return linkToFormasPagamento(IanaLinkRelations.SELF_VALUE);
 	}
 
+	public Link linkToFormaPagamento(Long formaPagamentoId) {
+		return linkToFormaPagamento(formaPagamentoId, IanaLinkRelations.SELF_VALUE);
+	}
+	
+	public Link linkToFormaPagamento(Long formaPagamentoId, String rel) {
+		return linkTo(methodOn(FormaPagamentoController.class).buscar(formaPagamentoId, null)).withRel(rel);
+	}
+
+	public Link linkToRestaurantes() {
+		return linkToRestaurantes(IanaLinkRelations.SELF_VALUE);
+	}
+	
 	public Link linkToRestaurantes(String rel) {
-		if (rel == null) {
-			return linkTo(methodOn(RestauranteController.class).listar()).withSelfRel();
-		}
-		return linkTo(methodOn(RestauranteController.class).listar()).withRel("restaurantes");
+		
+		String restaurantesUrl = linkTo(RestauranteController.class).toUri().toString();
+		
+		TemplateVariables paramVariables = new TemplateVariables(
+				new TemplateVariable("projecao", VariableType.REQUEST_PARAM));
+		
+		return Link.of(UriTemplate.of(restaurantesUrl, paramVariables), rel);
 	}
 
 	public Link linkToRestaurante(Long restauranteId) {
-		return linkTo(methodOn(RestauranteController.class).buscar(restauranteId)).withSelfRel();
+		return linkToRestaurante(restauranteId, IanaLinkRelations.SELF_VALUE);
+	}
+	
+	public Link linkToRestaurante(Long restauranteId, String rel) {
+		return linkTo(methodOn(RestauranteController.class).buscar(restauranteId)).withRel(rel);
 	}
 
 	public Link linkToCidades() {
@@ -133,26 +152,35 @@ public class AlgaLinks {
 	}
 
 	public Link linkToCozinha(Long cozinhaId) {
-		return linkTo(methodOn(CozinhaController.class).buscar(cozinhaId)).withSelfRel();
+		return linkToCozinha(cozinhaId, IanaLinkRelations.SELF_VALUE);
+	}
+	
+	public Link linkToCozinha(Long cozinhaId, String rel) {
+		return linkTo(methodOn(CozinhaController.class).buscar(cozinhaId)).withRel(rel);
 	}
 
+	public Link linkToCozinhas() {
+		return linkToCozinhas(IanaLinkRelations.SELF_VALUE);
+	}
+	
 	public Link linkToCozinhas(String rel) {
-		if (rel == null) {
-			return linkTo(CozinhaController.class).withSelfRel();
-		}
 		return linkTo(CozinhaController.class).withRel(rel);
 	}
 
 	public Link linkToResponsaveisRestaurante(Long restauranteId) {
-		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).listar(restauranteId)).withSelfRel();
+		return linkToResponsaveisRestaurante(restauranteId, IanaLinkRelations.SELF_VALUE);
 	}
 
 	public Link linkToResponsaveisRestaurante(Long restauranteId, String rel) {
 		return linkTo(methodOn(RestauranteUsuarioResponsavelController.class).listar(restauranteId)).withRel(rel);
 	}
 
+	public Link linkToGruposUsuario(Long usuarioId, String rel) {
+		return linkTo(methodOn(UsuarioGrupoController.class).listar(usuarioId)).withRel(rel);
+	}
+	
 	public Link linkToGruposUsuario(Long usuarioId) {
-		return linkTo(methodOn(UsuarioGrupoController.class).listar(usuarioId)).withRel("grupos-usuario");
+		return linkTo(methodOn(UsuarioGrupoController.class).listar(usuarioId)).withRel(IanaLinkRelations.SELF_VALUE);
 	}
 
 	public Link linkToFormasPagamentoRestaurante(Long restauranteId) {

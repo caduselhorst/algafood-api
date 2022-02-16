@@ -31,7 +31,7 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 		modelMapper.map(pedido, pedidoModel);
 		
 		
-		pedidoModel.add(algaLinks.linkToPedidos());
+		pedidoModel.add(algaLinks.linkToPedidos("pedidos"));
 		
 		if(pedido.podeSerConfirmado()) {
 			pedidoModel.add(algaLinks.linkToConfirmacaoPedido(pedido.getCodigo(), "confirmar"));
@@ -49,22 +49,19 @@ public class PedidoModelAssembler extends RepresentationModelAssemblerSupport<Pe
 		// links de clientes
 		pedidoModel.getCliente().add(
 				algaLinks.linkToCliente(pedidoModel.getCliente().getId()));
-		pedidoModel.getCliente().add(
-				algaLinks.linkToClientes());
+
 		
 		// links de formas de pagamento
 		pedidoModel.getFormaPagamento().add(
 				algaLinks.linkToFormaPagamento(pedidoModel.getFormaPagamento().getId()));
-		pedidoModel.getFormaPagamento().add(
-				algaLinks.linkToFormasPagamento("formas-pagamento"));
 		
 		// links de restaurantes
 		pedidoModel.getRestaurante().add(algaLinks.linkToRestaurante(pedidoModel.getRestaurante().getId()));
-		pedidoModel.getRestaurante().add(algaLinks.linkToRestaurantes("restaurantes"));
+
 		
 		// links para endereço de entrega
 		pedidoModel.getEnderecoEntrega().getCidade().add(algaLinks.linkToCidade(pedidoModel.getEnderecoEntrega().getCidade().getId()));
-		pedidoModel.getEnderecoEntrega().getCidade().add(algaLinks.linkToCidades());
+
 		
 		pedidoModel.getItens().forEach(i -> 
 			i.getProduto().add(

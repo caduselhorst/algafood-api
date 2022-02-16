@@ -35,6 +35,6 @@ public class RestauranteBasicoModelAssembler extends RepresentationModelAssemble
 	@Override
 	public CollectionModel<RestauranteBasicoModel> toCollectionModel(Iterable<? extends Restaurante> entities) {
 		// TODO Auto-generated method stub
-		return super.toCollectionModel(entities).add(algaLinks.linkToRestaurantes(null));
+		return super.toCollectionModel(entities).add(algaLinks.linkToRestaurantes());
 	}
 }

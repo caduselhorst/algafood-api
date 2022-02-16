@@ -29,15 +29,14 @@ public class FormaPagamentoModelAssembler extends RepresentationModelAssemblerSu
 		FormaPagamentoModel formaPagamentoModel= createModelWithId(formaPagamento.getId(), formaPagamento);
 		mapper.map(formaPagamento, formaPagamentoModel);
 		
-		formaPagamentoModel.add(algaLinks.linkToFormasPagamento(null));
+		formaPagamentoModel.add(algaLinks.linkToFormasPagamento("formas-pagamentos"));
 		
 		return formaPagamentoModel;
 	}
 	
 	@Override
 	public CollectionModel<FormaPagamentoModel> toCollectionModel(Iterable<? extends FormaPagamento> entities) {
-		// TODO Auto-generated method stub
-		return super.toCollectionModel(entities).add(algaLinks.linkToFormasPagamento(null));
+		return super.toCollectionModel(entities).add(algaLinks.linkToFormasPagamento());
 	}
 	
 }

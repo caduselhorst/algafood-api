@@ -36,7 +36,7 @@ public class RestauranteApenasNomeModelAssembler extends RepresentationModelAsse
 	@Override
 	public CollectionModel<RestauranteApenasNomeModel> toCollectionModel(Iterable<? extends Restaurante> entities) {
 		// TODO Auto-generated method stub
-		return super.toCollectionModel(entities).add(algaLinks.linkToRestaurantes(null));
+		return super.toCollectionModel(entities).add(algaLinks.linkToRestaurantes());
 	}
 
 }
