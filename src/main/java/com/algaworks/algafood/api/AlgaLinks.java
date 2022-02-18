@@ -188,6 +188,18 @@ public class AlgaLinks {
 				.withRel("formas-pagamento");
 	}
 	
+	public Link linkToRestauranteFormaPagamentoDesassociacao(Long restauranteId, 
+			Long formaPagamentoId, String rel) {
+		return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+				.desassociarFormaPagameto(restauranteId, formaPagamentoId)).withRel(rel);
+	}
+	
+	public Link linkToRestauranteFormaPagamentoAssociacao(Long restauranteId, String rel) {
+		
+		return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+				.associarFormaPagamento(restauranteId, null)).withRel(rel);
+	}
+	
 	public Link linkToAtivarRestaurante(Long restauranteId) {
 		return linkTo(methodOn(RestauranteController.class).ativar(restauranteId)).withRel("ativar");
 	}
@@ -203,5 +215,7 @@ public class AlgaLinks {
 	public Link linkToFecharRestaurante(Long restauranteId) {
 		return linkTo(methodOn(RestauranteController.class).fechamento(restauranteId)).withRel("fechar");
 	}
+	
+	
 
 }
