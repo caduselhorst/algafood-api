@@ -80,14 +80,27 @@ public class AlgaLinks {
 	}
 
 	public Link linkToUsuarios(String rel) {
-		if (rel == null) {
-			return linkTo(methodOn(UsuarioController.class).listar()).withRel(IanaLinkRelations.SELF_VALUE);
-		}
-		return linkTo(methodOn(UsuarioController.class).listar()).withRel("usuarios");
+		return linkTo(methodOn(UsuarioController.class).listar()).withRel(rel);
+	}
+	
+	public Link linkToUsuarios() {
+		return linkToUsuarios(IanaLinkRelations.SELF_VALUE);
 	}
 
 	public Link linkToUsuario(Long usuarioId) {
-		return linkTo(methodOn(UsuarioController.class).buscar(usuarioId)).withSelfRel();
+		return linkToUsuario(usuarioId, IanaLinkRelations.SELF_VALUE);
+	}
+	
+	public Link linkToUsuario(Long usuarioId, String rel) {
+		return linkTo(methodOn(UsuarioController.class).buscar(usuarioId)).withRel(rel);
+	}
+	
+	public Link linkToUsuarioGrupoDesassociar(Long usuarioId, Long grupoId, String rel) {
+		return linkTo(methodOn(UsuarioGrupoController.class).desassociarGrupo(usuarioId, grupoId)).withRel(rel);
+	}
+	
+	public Link linkToUsuarioGrupoAssociar(Long usuarioId, String rel) {
+		return linkTo(methodOn(UsuarioGrupoController.class).associarGrupo(usuarioId, null)).withRel(rel);
 	}
 
 	public Link linkToFormasPagamento(String rel) {

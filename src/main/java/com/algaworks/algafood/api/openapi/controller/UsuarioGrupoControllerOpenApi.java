@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.model.GrupoModel;
@@ -29,7 +30,7 @@ public interface UsuarioGrupoControllerOpenApi {
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "204", description = "Grupo associado ao usuário")
 	})
-	void associarGrupo(
+	ResponseEntity<Void> associarGrupo(
 			@ApiParam(value = "ID usuário", example = "1") Long usuarioId, 
 			@ApiParam(value = "ID do grupo", example = "1") Long grupoId);
 
@@ -39,7 +40,7 @@ public interface UsuarioGrupoControllerOpenApi {
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = Problem.class))),
 		@ApiResponse(responseCode = "204", description = "Grupo desassociado do usuário")
 	})
-	void desassociarGrupo(
+	ResponseEntity<Void> desassociarGrupo(
 			@ApiParam(value = "ID usuário", example = "1") Long usuarioId, 
 			@ApiParam(value = "ID do grupo", example = "1") Long grupoId);
 

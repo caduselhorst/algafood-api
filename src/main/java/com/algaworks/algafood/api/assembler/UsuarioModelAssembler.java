@@ -42,6 +42,6 @@ public class UsuarioModelAssembler extends RepresentationModelAssemblerSupport<U
 	@Override
 	public CollectionModel<UsuarioModel> toCollectionModel(Iterable<? extends Usuario> entities) {
 		// TODO Auto-generated method stub
-		return super.toCollectionModel(entities).add(algaLinks.linkToUsuarios(null));
+		return super.toCollectionModel(entities).add(algaLinks.linkToUsuarios());
 	}
 }
