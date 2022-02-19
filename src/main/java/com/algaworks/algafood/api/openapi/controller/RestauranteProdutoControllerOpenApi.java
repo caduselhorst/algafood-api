@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.algaworks.algafood.api.exceptionhandler.Problem;
 import com.algaworks.algafood.api.model.ProdutoModel;
@@ -18,11 +18,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 public interface RestauranteProdutoControllerOpenApi {
 
 	@ApiOperation("Lista os produtos, informando um id de restaurante e se deseja mostrar todos ou somente os ativos")
-	List<ProdutoModel> listar(
+	CollectionModel<ProdutoModel> listar(
 			@ApiParam(value = "ID do restaurante", required = true, example = "1")
 			Long restauranteId, 
 			@ApiParam(value = "Incluir inativos", required = true, example = "true")
-			boolean incluirInativos);
+			Boolean incluirInativos);
 
 	@ApiOperation("Buscar um produto por ID de restaurante e por ID de produto")
 	@ApiResponses({

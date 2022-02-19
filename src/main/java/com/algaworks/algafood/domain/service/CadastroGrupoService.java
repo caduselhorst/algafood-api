@@ -1,9 +1,8 @@
 package com.algaworks.algafood.domain.service;
 
-import java.util.List;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,7 @@ public class CadastroGrupoService {
 	private CadastroPermissaoService cadastroPermissao;
 	
 	
-	public List<GrupoModel> listar() {
+	public CollectionModel<GrupoModel> listar() {
 		return assembler.toCollectionModel(repository.findAll());
 	}
 	

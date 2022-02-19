@@ -28,10 +28,15 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
 		modelMapper.map(restaurante, restauranteModel);
 
 		restauranteModel.getCozinha().add(algaLinks.linkToCozinha(restauranteModel.getCozinha().getId()));
-		restauranteModel.getEndereco().getCidade()
-				.add(algaLinks.linkToCidade(restauranteModel.getEndereco().getCidade().getId()));
+		
+		if(restauranteModel.getEndereco() != null) {
+			restauranteModel.getEndereco().getCidade()
+			.add(algaLinks.linkToCidade(restauranteModel.getEndereco().getCidade().getId()));
+		}
 		
 		restauranteModel.add(algaLinks.linkToRestaurantes("restaurantes"));
+		
+		restauranteModel.add(algaLinks.linkToProdutos(restauranteModel.getId(), "produtos"));
 		
 		//links condicionais
 		if(restaurante.podeAbrir()) {
