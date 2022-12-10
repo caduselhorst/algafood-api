@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.algaworks.algafood.api.controller.CidadeController;
 import com.algaworks.algafood.api.controller.CozinhaController;
 import com.algaworks.algafood.api.controller.EstadoController;
+import com.algaworks.algafood.api.controller.EstatisticasController;
 import com.algaworks.algafood.api.controller.FluxoPedidoController;
 import com.algaworks.algafood.api.controller.FormaPagamentoController;
 import com.algaworks.algafood.api.controller.GrupoController;
@@ -145,7 +146,11 @@ public class AlgaLinks {
 	}
 
 	public Link linkToCidades() {
-		return linkTo(methodOn(CidadeController.class).listar()).withRel("cidades");
+		return linkToCidades(IanaLinkRelations.SELF_VALUE);
+	}
+	
+	public Link linkToCidades(String rel) {
+		return linkTo(methodOn(CidadeController.class).listar()).withRel(rel);
 	}
 
 	public Link linkToCidade(Long cidadeId) {
@@ -183,7 +188,11 @@ public class AlgaLinks {
 	}
 
 	public Link linkToEstados() {
-		return linkTo(EstadoController.class).withRel("estados");
+		return linkToEstados(IanaLinkRelations.SELF_VALUE);
+	}
+	
+	public Link linkToEstados(String rel) {
+		return linkTo(EstadoController.class).withRel(rel);
 	}
 
 	public Link linkToCozinha(Long cozinhaId) {
@@ -299,6 +308,23 @@ public class AlgaLinks {
 	
 	public Link linkToGrupoPermissaoDesassociacao(Long grupoId, Long permissaoId, String rel) {
 		return linkTo(methodOn(GrupoPermissaoController.class).desassociar(grupoId, permissaoId)).withRel(rel);
+	}
+	
+	public Link linkToEstatisticas(String rel) {
+	    return linkTo(EstatisticasController.class).withRel(rel);
+	}
+	
+	public Link linkToEstatisticasVendasDiarias(String rel) {
+	    TemplateVariables filtroVariables = new TemplateVariables(
+	            new TemplateVariable("restauranteId", VariableType.REQUEST_PARAM),
+	            new TemplateVariable("dataCriacaoInicio", VariableType.REQUEST_PARAM),
+	            new TemplateVariable("dataCriacaoFim", VariableType.REQUEST_PARAM),
+	            new TemplateVariable("timeOffset", VariableType.REQUEST_PARAM));
+	    
+	    String pedidosUrl = linkTo(methodOn(EstatisticasController.class)
+	            .consultarVendasDiarias(null, null)).toUri().toString();
+	    
+	    return Link.of(UriTemplate.of(pedidosUrl, filtroVariables), rel);
 	}
 
 }

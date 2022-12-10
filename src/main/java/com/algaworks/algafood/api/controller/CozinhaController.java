@@ -25,6 +25,7 @@ import com.algaworks.algafood.api.assembler.CozinhaModelAssembler;
 import com.algaworks.algafood.api.model.CozinhaModel;
 import com.algaworks.algafood.api.model.input.CozinhaInput;
 import com.algaworks.algafood.api.openapi.controller.CozinhaControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
@@ -42,6 +43,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 	private CozinhaInputDisassembler cozinhaInpuDisassembler;
 	private PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 
+	@CheckSecurity.Cozinhas.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public PagedModel<CozinhaModel> listar(@PageableDefault(size = 10) Pageable pageable) {
 		
@@ -54,12 +56,14 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 		return cozinhasPagedModel;
 	}
 
+	@CheckSecurity.Cozinhas.PodeConsultar
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CozinhaModel buscar(@PathVariable Long id) {
 		return cozinhaModelAssembler.toModel(
 				service.buscarOuFalhar(id));
 	}
 
+	@CheckSecurity.Cozinhas.PodeEditar
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CozinhaModel> adicionar(@RequestBody @Valid CozinhaInput cozinha) {
 
@@ -69,6 +73,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 								cozinhaInpuDisassembler.toDomainObject(cozinha))), HttpStatus.CREATED);
 	}
 
+	@CheckSecurity.Cozinhas.PodeEditar
 	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CozinhaModel alterar(@PathVariable Long id, @RequestBody @Valid CozinhaInput cozinha) {
 
@@ -79,6 +84,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cozinhas.PodeEditar
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void excluir(@PathVariable Long id) {

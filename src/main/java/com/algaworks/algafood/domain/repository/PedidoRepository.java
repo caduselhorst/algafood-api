@@ -15,4 +15,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>, JpaSpecif
 	public List<Pedido> findAll();
 	
 	public Optional<Pedido> findByCodigo(String codigo);
+	
+	// chama a query do orm.xml
+	public boolean isPedidoGerenciadoPor(String codigoPedido, Long usuarioId);
 }

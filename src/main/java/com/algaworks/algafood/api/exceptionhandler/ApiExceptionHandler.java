@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -37,11 +38,13 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
+	private static final String MENSAGEM_SEM_PERMISSAO = "Você não possui permissão para executar essa operação";
+	private static final String MENSAGEM_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
+			+ "Tente novamente. Se o problema persistir entre em contato com o Administrador";
+
 	@Autowired
 	private MessageSource messageSource;
 	
-	private static final String MENSAGEM_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. "
-	+ "Tente novamente. Se o problema persistir entre em contato com o Administrador";
 	
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex,
@@ -276,7 +279,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				
 	}
 	
-	
+	@ExceptionHandler(AccessDeniedException.class)
+public ResponseEntity<?> handleUncaught(AccessDeniedException ex, WebRequest request) {
+		
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		ProblemType problemType = ProblemType.ACESSO_NEGADO;
+		
+		String detail = ex.getMessage();
+		
+		ex.printStackTrace();
+		
+		Problem problem = createProblemBuilder(status, problemType, detail)
+				.userMessage(MENSAGEM_SEM_PERMISSAO)
+				.build();
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+				
+	}
 	
 		
 	/*

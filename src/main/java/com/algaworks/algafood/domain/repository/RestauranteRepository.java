@@ -17,4 +17,7 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 	public List<Restaurante> find(String nome, 
 			BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal);
 	
+	
+	public boolean existsResponsavel(Long restauranteId, Long usuarioId);
+	
 }

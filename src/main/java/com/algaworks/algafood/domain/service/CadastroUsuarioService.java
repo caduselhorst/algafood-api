@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,9 @@ import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class CadastroUsuarioService {
 
@@ -39,6 +43,9 @@ public class CadastroUsuarioService {
 	@Autowired
 	private CadastroGrupoService cadastroGrupo;
 	
+	@Autowired
+	private PasswordEncoder passwordEnconder;
+	
 	public CollectionModel<UsuarioModel> listar() {
 		return assembler.toCollectionModel(repository.findAll());
 	}
@@ -57,6 +64,8 @@ public class CadastroUsuarioService {
 			throw new NegocioException(String.format(MENSAGEM_USUARIO_EMAIL_EXISTENTE, 
 					usuarioInput.getEmail()));
 		}
+		
+		usuario.setSenha(passwordEnconder.encode(usuario.getSenha()));
 		
 		return assembler.toModel(repository.save(usuario));
 	}
@@ -93,13 +102,16 @@ public class CadastroUsuarioService {
 	
 	@Transactional
 	public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha) {
+				
 		Usuario usuario = buscarOuFalhar(usuarioId);
 		
-		if(usuario.senhaNaoCoincideCom(senhaAtual)) {
+		log.info(String.format("Senha: %s", usuario.getSenha()));
+		
+		if(!passwordEnconder.matches(senhaAtual, usuario.getSenha())) {
 			throw new NegocioException("Senha atual informada não coincide com a senha do usuário");
 		}
 		
-		usuario.setSenha(novaSenha);
+		usuario.setSenha(passwordEnconder.encode(novaSenha));
 	}
 	
 	@Transactional

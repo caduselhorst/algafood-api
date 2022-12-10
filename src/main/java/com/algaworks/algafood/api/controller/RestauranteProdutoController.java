@@ -21,6 +21,7 @@ import com.algaworks.algafood.api.assembler.ProdutoModelAssembler;
 import com.algaworks.algafood.api.model.ProdutoModel;
 import com.algaworks.algafood.api.model.input.ProdutoInput;
 import com.algaworks.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
@@ -46,6 +47,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 	@Autowired
 	private ProdutoInputDisassembler produtoInputDisassembler;
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping
 	public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId,
@@ -64,6 +66,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		
 	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@Override
 	@GetMapping("/{produtoId}")
 	public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
@@ -74,6 +77,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -89,6 +93,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 		
 	}
 	
+	@CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
 	@Override
 	@PutMapping("/{produtoId}")
 	public ProdutoModel atualizar(@PathVariable Long restauranteId, 

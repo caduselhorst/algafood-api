@@ -23,6 +23,7 @@ import com.algaworks.algafood.api.assembler.CidadeModelAssembler;
 import com.algaworks.algafood.api.model.CidadeModel;
 import com.algaworks.algafood.api.model.input.CidadeInput;
 import com.algaworks.algafood.api.openapi.controller.CidadeControllerOpenApi;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Cidade;
@@ -39,6 +40,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	private CidadeModelAssembler modelAssembler;
 	private CidadeInputDisassembler inputDisassembler;
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public CollectionModel<CidadeModel> listar() {
 		
@@ -47,6 +49,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 		return modelAssembler.toCollectionModel(lista);
 	}
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping(path = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CidadeModel buscar(@PathVariable Long cidadeId) {
 
@@ -54,6 +57,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public CidadeModel adicionar(@RequestBody @Valid CidadeInput cidade) {
@@ -71,6 +75,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PutMapping(path = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public CidadeModel alterar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidade) {
 		try {
@@ -81,6 +86,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@DeleteMapping("/{cidadeId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cidadeId) {

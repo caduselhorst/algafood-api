@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import com.algaworks.algafood.api.controller.EstatisticasController.EstatisticasModel;
+import com.algaworks.algafood.core.validation.TimeOffset;
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.dto.VendaDiaria;
 
@@ -35,9 +37,12 @@ public interface EstatisticasControllerOpenApi {
 		@ApiResponse(responseCode = "200", description = "OK", 
 				content = @Content(mediaType = "application/json", schema = @Schema(implementation = VendaDiaria.class)))
 	})
-	List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro, String timeOffset);
+	public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro, @TimeOffset String timeOffset);
 
 	@ApiOperation(value = "Listar vendas diárias", hidden = false)
-	ResponseEntity<byte[]> consultarVendasDiariasPdf(VendaDiariaFilter filtro, String timeOffset);
+	public ResponseEntity<byte[]> consultarVendasDiariasPdf(VendaDiariaFilter filtro, String timeOffset);
+	
+	@ApiOperation(value = "Estatísticas", hidden = true)
+	public EstatisticasModel estatisticas();
 
 }
